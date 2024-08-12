@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Pakistan</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu-bar" class="fas fa-bars"></div>
+
+        <a href="/" class="logo"><span>V</span>ista Pakistan</a>
+
+        <nav class="navbar">
+            <a href="/">home</a>
+            <a href="#book">booking</a>
+            <a href="/#packages">packages</a>
+            <a href="#services">services</a>
+            <a href="/#gallery">gallery</a>
+            <a href="#review">review</a>
+            <a href="/#contact">contact</a>
+        </nav>
+
+        <div class="icons">
+            <i class="fas fa-search" id="search-btn"></i>
+            <img src="{{ profile_img }}" alt="user_img" id="login-btn">
+            <!-- <a>
+            <img src="./images/Setting.png" alt="Settings" width="45px" height="45px">
+        </a> -->
+        </div>
+
+        <form action="/search" class="search-bar-container">
+            <input type="search" id="search-bar" placeholder="search here...">
+            <label for="search-bar" class="fas fa-search"></label>
+        </form>
+
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- login form container  -->
+
+    <div class="login-form-container {% if invalidusr %} active {% endif %}">
+
+        <i class="fas fa-times" id="form-close"></i>
+        <div class="form">
+            <h3>{{ name }}</h3>
+            <a href="/profile/" target="_blank" class="box formBtn">
+                <img src="/static/images/user/profile.svg" alt="profile_page" width="45px" height="45px">
+                Profile
+            </a>
+            <a href="/profile/settings/" target="_blank" class="box formBtn">
+                <img src="/static/images/setting.svg" alt="settings" width="45px" height="45px">
+                Settings
+            </a>
+            <a href="/logout/" class="box formBtn">
+                <img src="/static/images/logout.svg" alt="logout" width="45px" height="45px">
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- home section starts  -->
+
+    <section class="home" id="home">
+
+        <div class="content">
+            <h3>{{ package.name }}</h3>
+            <a href="#book" class="btn">Book Now</a>
+        </div>
+
+        <div class="video-container">
+            <img src="/{{ package.image }}" alt="">
+            <!-- <video src="/static/images/vid-1.mp4" id="video-slider" loop autoplay muted></video> -->
+        </div>
+
+        
+
+    </section>
+
+    <!-- home section ends -->
+    <section class="details">
+
+        <h1 class="heading">
+            <span>D</span>
+            <span>e</span>
+            <span>t</span>
+            <span>a</span>
+            <span>i</span>
+            <span>l</span>
+            <span>s</span>
+        </h1>
+
+        <div class="description">
+            <h2>Description</h2>
+            <br>
+            <p>{{ package.description }}</p>
+            <br>
+            <h2>Rating</h2>
+            <br>
+            <div class="stars">
+            {% for i in rating %}
+                {% if i <= package.rating %}
+                <i class="fas fa-star"></i>
+                {% else %}
+                <i class="far fa-star"></i>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+
+    </section>
+    <!-- book section starts  -->
+
+    <section class="book" id="book">
+
+        <h1 class="heading">
+            <span>b</span>
+            <span>o</span>
+            <span>o</span>
+            <span>k</span>
+            <span class="space"></span>
+            <span>n</span>
+            <span>o</span>
+            <span>w</span>
+        </h1>
+
+        <div class="row">
+
+            <div class="image">
+                <img src="/static/images/book-img.svg" alt="">
+            </div>
+
+            <form action="/package/book/?package={{ package.id }}" id="booking_form" method="POST">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <h3>price per person: {{ package.price }} PKR</h3>
+                    <!-- <input type="text" placeholder="package name"> -->
+                    
+                </div>
+                <div class="inputBox">
+                    <h3>how many</h3>
+                    <input type="number" name="persons" min="1" placeholder="number of passengers">
+                </div>
+                <div class="inputBox">
+                    <h3>arrival</h3>
+                    <input type="date" name="date">
+                </div>
+                <!-- <div class="inputBox">
+                    <h3>departure</h3>
+                    <input type="date">
+                </div> -->
+                <input type="submit" class="btn" value="Book">
+            </form>
+
+        </div>
+
+    </section>
+
+    <!-- book section ends -->
+
+    <!-- services section starts  -->
+
+    <section class="services" id="services">
+
+        <h1 class="heading">
+            <span>s</span>
+            <span>e</span>
+            <span>r</span>
+            <span>v</span>
+            <span>i</span>
+            <span>c</span>
+            <span>e</span>
+            <span>s</span>
+        </h1>
+
+        <div class="box-container">
+
+            <div class="box">
+                <i class="fas fa-hotel"></i>
+                <h3>affordable hotels</h3>
+                <p>Experience seamless travel planning with our hotel services at "Vista Pakistan". We connect you with
+                    a curated selection of accommodations tailored to your preferences, ensuring a comfortable and
+                    memorable stay.Elevate your travel experience with our hotel services, where convenience meets
+                    exceptional hospitality.</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-utensils"></i>
+                <h3>food and drinks</h3>
+                <p>We bring you a delectable array of dining options, from local gastronomic delights to international
+                    cuisines. Whether you crave the authenticity of street food or the sophistication of fine dining,
+                    our platform caters to diverse tastes.Elevate your travel palate with us, where every meal is a
+                    celebration of flavors and culinary excellence.</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-bullhorn"></i>
+                <h3>safty guide</h3>
+                <p>We understand the importance of secure travel experiences, and our platform is committed to providing
+                    you with reliable information and resources.our platform empowers you to make informed decisions,
+                    putting your well-being first. Travel with confidence, knowing that your safety is our top priority
+                    throughout your exploration</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-book"></i>
+                <h3>tour guide</h3>
+                <p>Explore destinations like a local, accompanied by knowledgeable guides who share insider insights and
+                    hidden gems.From historical anecdotes to off-the-beaten-path adventures, our tour guides are
+                    passionate about creating unforgettable experiences. Immerse yourself in the culture, history, and
+                    stories of your destination with our expertly curated tours, ensuring every moment is enriched with
+                    knowledge and discovery.</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-bus"></i>
+                <h3>fastest travel</h3>
+                <p>Embark on a hassle-free journey with our Bus Service. Experience convenient and comfortable travel.
+                    Whether you're exploring a vibrant city or venturing into scenic landscapes, our platform offers a
+                    range of bus services to suit your needs. Enjoy spacious seating, air-conditioned comfort, and
+                    punctual departures, ensuring a smooth and enjoyable ride.</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-hiking"></i>
+                <h3>adventures</h3>
+                <p>Fuel your adventurous spirit with our Adventure Services. We curate thrilling
+                    experiences for adrenaline enthusiasts, offering a diverse range of activities from heart-pounding
+                    adventures to soul-soothing escapades. Whether you seek the rush of extreme sports or the
+                    tranquility of nature treks. Unleash the thrill-seeker in you, and let our Adventure Services be
+                    your gateway to exhilarating experiences and lasting memories.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- services section ends -->
+
+    <!-- review section starts  -->
+
+    <section class="review" id="review">
+
+        <h1 class="heading">
+            <span>r</span>
+            <span>e</span>
+            <span>v</span>
+            <span>i</span>
+            <span>e</span>
+            <span>w</span>
+        </h1>
+
+        <div class="swiper-container review-slider">
+
+            <div class="swiper-wrapper">
+                {% for review in reviews %}
+                <div class="swiper-slide">
+                    <div class="box">
+                        <img src="{{ review.User.profile_img }}" alt="">
+                        <h3>{{ review.User.name }}</h3>
+                            <p>{{ review.comment }}</p>
+                            <div class="stars">
+                                {% for i in rating %}
+                                {% if i <= review.rating %}
+                                <i class="fas fa-star"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- review section ends -->
+
+
+    <!-- footer section  -->
+
+    <section class="footer">
+
+        <div class="box-container">
+
+            <div class="box">
+                <h3>about us</h3>
+                <p>Ready to embark on your dream adventure? Find the perfect package to match your travel desires and
+                    budget right here. Explore our exciting options in the "Packages" section. Let's craft your
+                    unforgettable experience!</p>
+            </div>
+            <div class="box">
+                <h3>branch locations</h3>
+                <a href="#">Lahore</a>
+                <a href="#">Islamabad</a>
+                <a href="#">Peshawar</a>
+                <a href="#">Sakardu</a>
+            </div>
+            <div class="box">
+                <h3>Phone Numbers</h3>
+                <a>+92 320 2429326</a>
+                <a>+92 333 4322631</a>
+                <a>+92 321 9482876</a>
+                <a>+92 310 4351121</a>
+
+            </div>
+            <div class="box">
+                <h3>follow us</h3>
+                <a href="#">facebook</a>
+                <a href="#">instagram</a>
+                <a href="#">twitter</a>
+                <a href="#">linkedin</a>
+            </div>
+
+        </div>
+
+        <h1 class="credit"> created by <span> CS-B Group-7 </span> | all rights reserved! </h1>
+
+    </section>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- custom js file link  -->
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>

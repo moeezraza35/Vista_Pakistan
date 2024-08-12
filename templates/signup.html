@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Travel Agency Signup</title>
+	<!-- Link to Tailwind CSS CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+</head>
+<!-- <body class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 min-h-screen flex items-center justify-center"> -->
+
+<body style="background: dimgray;" class="min-h-screen flex items-center justify-center">
+	<div style="background: gainsboro;" class="bg-white p-8 rounded-lg shadow-lg w-full sm:max-w-md">
+		<h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Sign Up Now</h2>
+
+		<form class="space-y-4" action="/signup/request/" method="POST" id="signupForm">
+			{% csrf_token %}
+			<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+				<div class="w-full sm:w-1/2">
+					<label for="firstName" class="text-sm text-gray-600">First Name</label>
+					<input type="text" id="firstName" name="firstName" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+				</div>
+				<div class="w-full sm:w-1/2">
+					<label for="lastName" class="text-sm text-gray-600">Last Name</label>
+					<input type="text" id="lastName" name="lastName" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+				</div>
+			</div>
+
+			<div>
+				<label for="email" class="text-sm text-gray-600">Email Address</label>
+				<input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+				{% if emailUsed == 1 %}<p style='color: red;'>Email already used</p>{% endif %}
+				<p style="color:red; display:none;" id="emailChk">Only use gmail, hotmail or outlook</p>
+			</div>
+
+			<!-- <div>
+				<label for="phone" class="text-sm text-gray-600">Phone Number</label>
+				<input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" required>
+			</div> -->
+
+			<!-- <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"> -->
+			<div>
+			<!-- <div class="w-full sm:w-1/3"> -->
+				<div>
+					<label for="country" class="text-sm text-gray-600">Country</label>
+					<input type="text" id="country" name="country" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+				</div>
+			<!-- <div class="w-full sm:w-1/3">
+				<label for="city" class="text-sm text-gray-600">City</label>
+				<input type="text" id="city" name="city" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" required>
+			</div> -->
+			<!-- <div class="w-full sm:w-1/3">
+				<label for="state" class="text-sm text-gray-600">State</label>
+				<input type="text" id="state" name="state" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" required>
+			</div> -->
+			</div>
+
+			<div>
+				<label for="password" class="text-sm text-gray-600">Password</label>
+				<input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+			</div>
+
+			<div>
+				<label for="cnfrmPass" class="text-sm text-gray-600">Confirm Password</label>
+				<input type="password" id="cnfrmPass" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+				<p style="color:red; display:none;" id="passChk">Password & confirm password doesn't match</p>
+			</div>
+
+			<button type="button" onclick="signup()" class="w-full bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 focus:outline-none focus:ring focus:border-purple-400">Sign Up</button>
+		</form>
+
+		<p class="text-gray-600 mt-4 text-center">Already have an account? <a href="#" class="text-purple-500 hover:underline">Login</a></p>
+		<br>
+		<p class="text-gray-600 mt-4 text-center">Continue with google? <a href="https://www.google.com" target="_blank" class="text-purple-500 hover:underline">Google</a></p>
+		<p class="text-gray-600 mt-4 text-center">Continue with facebook? <a href="https://www.facebook.com" target="_blank" class="text-purple-500 hover:underline">Facebook</a></p>
+	</div>
+<script>
+	function signup(){
+		var passBar = document.getElementById("password");
+		var confBar = document.getElementById("cnfrmPass");
+		var form = document.getElementById("signupForm");
+		var email = document.getElementById("email");
+		var condition = true;
+		if(passBar.value != confBar.value){
+			condition = false;
+			document.getElementById("passChk").style.display = "block";
+		}
+		if(email.value.slice(email.value.length -"@gmail.com".length) != "@gmail.com" && email.value.slice(email.value.length -"@hotmail.com".length) != "@hotmail.com" && email.value.slice(email.value.length -"@outlook.com".length) != "@outlook.com"){
+			condition = false;
+			console.log("condition true");
+			document.getElementById("emailChk").style.display = "block";
+		}
+		if(form.checkValidity() && condition){
+			form.submit();
+		}else{
+			alert("please fill all the fields");
+		}
+	}
+</script>
+</body>
+</html>

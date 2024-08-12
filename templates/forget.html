@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Vista Account Password reset</title>
+	<!-- Link to Tailwind CSS CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+</head>
+<!-- <body class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 min-h-screen flex items-center justify-center"> -->
+
+<body style="background: dimgray;" class="min-h-screen flex items-center justify-center">
+	<div style="background: gainsboro;" class="bg-white p-8 rounded-lg shadow-lg w-full sm:max-w-md">
+		<h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Reset Password</h2>
+
+		<form class="space-y-4" action="/forget/request/" method="POST">
+			{% csrf_token %}
+			<div>
+				<label for="email" class="text-sm text-gray-600">Email Address</label>
+				<input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+			</div>
+			{% if error %}
+			<p style="color: red;">There is no account register to this email <a href="/signup/" style="color: blue;;">Signup</a></p>
+			{% endif %}
+
+			<input type="submit" class="w-full bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 focus:outline-none focus:ring focus:border-purple-400">
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Pakistan</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu-bar" class="fas fa-bars"></div>
+
+        <a href="/" class="logo"><span>V</span>ista Pakistan</a>
+
+        <nav class="navbar">
+            <a href="/#home">home</a>
+            <a href="/#packages">booking</a>
+            <a href="#packages">packages</a>
+            <a href="/#services">services</a>
+            <a href="/#gallery">gallery</a>
+            <a href="/#review">review</a>
+            <a href="/#contact">contact</a>
+        </nav>
+
+        <div class="icons">
+            <i class="fas fa-search" id="search-btn"></i>
+            <img src="{{ user.profile_img }}" alt="user_img" id="login-btn" style="cursor:pointer; width:35px; height:35px; vertical-align: text-bottom; border-radius:50%; box-shadow: 1px 1px 5px gray, -1px -1px 5px gray">
+            <!-- <a>
+            <img src="./images/Setting.png" alt="Settings" width="45px" height="45px">
+        </a> -->
+        </div>
+
+        <form action="/search" class="search-bar-container">
+            <input type="search" id="search-bar" placeholder="search here...">
+            <label for="search-bar" class="fas fa-search"></label>
+        </form>
+
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- login form container  -->
+
+    <div class="login-form-container {% if invalidusr %} active {% endif %}">
+
+        <i class="fas fa-times" id="form-close"></i>
+        <div class="form">
+            <h3>{{ user.name }}</h3>
+            <a href="/profile/" class="box formBtn">
+                <img src="/static/images/user/profile.svg" alt="profile_page" width="45px" height="45px">
+                Profile
+            </a>
+            <a href="/profile/settings/" class="box formBtn">
+                <img src="/static/images/setting.svg" alt="settings" width="45px" height="45px">
+                Settings
+            </a>
+            <a href="/logout/" class="box formBtn">
+                <img src="/static/images/logout.svg" alt="logout" width="45px" height="45px">
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- home section starts  -->
+
+    <section class="home" id="home">
+
+        <div class="content">
+            <img src="{{ user.profile_img }}" alt="profile_pic" class="profile_pic">
+        </div>
+        <h1 class="heading">
+            {% for letter in user.name %}
+            {% if letter == " " %}
+            <span class="space"></span>
+            {% else %}
+            <span>{{ letter }}</span>
+            {% endif %}
+            {% endfor %}
+        </h1>
+        <div class="user_info">
+            <p>
+                <strong>Email: </strong>{{ user.email }}
+            </p>
+            <p>
+                <strong>Country: </strong>{{ user.country }}
+            </p>
+        </div>
+    </section>
+
+    <!-- home section ends -->
+
+    <!-- packages section starts  -->
+
+    <section class="packages" id="packages">
+
+        <h1 class="heading">
+            <span>B</span>
+            <span>o</span>
+            <span>o</span>
+            <span>k</span>
+            <span>i</span>
+            <span>n</span>
+            <span>g</span>
+            <span>s</span>
+        </h1>
+        <div class="box-container">
+        {% if booking.exists %}
+        {% for booked in booking %}
+        {% for package in packages %}
+        {% if package.id == booked.package %}
+            <div class="box">
+                <img src="/{{ package.image }}" alt="Skardu">
+                <div class="content">
+                    <h4>Booking ID: #{{ booked.id }}</h4>
+                    <h3> <i class="fas fa-map-marker-alt"></i> {{ package.name }} </h3>
+                    <p> <i class="fas fa-clock"></i> {{ booked.arrival }} - {{ booked.end_date }}</p>
+                    
+                    <div class="price"> <i class="fa fa-money-bill"></i> {{ package.price }} PKR </div>
+                    <p> Status: {{ booked.status }}</p>
+                    {% if booked.status == "Un-Reviewed" %}
+                    <div class="contact">
+                        <h4>Rating:</h4>
+                        <form action="/package/review/?booking={{ booked.id }}" method="POST">
+                            {% csrf_token %}
+                            <div class="stars">
+                                <i class="fas filled fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <input type="hidden" name="stars" id="stars" value="1">
+                            <textarea placeholder="Review" name="comment" id="" cols="30" rows="10" style="width: 100%;"></textarea>
+                            <input type="submit" class="btn" value="send response">
+                        </form>
+                    </div>
+                    {% elif booked.status == "Un-Paid" %}
+                    <a href="/package/payment/?booking={{ booked.id }}" class="btn">Pay</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+        </div>
+    </section>
+
+    <!-- packages section ends -->
+
+    <!-- brand section  -->
+    <section class="brand-container">
+
+        <div class="swiper-container brand-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="/static/images/brands/1.png"></div>
+                <div class="swiper-slide"><img src="/static/images/brands/2.png"></div>
+                <div class="swiper-slide"><img src="/static/images/brands/3.png"></div>
+                <div class="swiper-slide"><img src="/static/images/brands/4.png"></div>
+                <div class="swiper-slide"><img src="/static/images/brands/5.png"></div>
+                <div class="swiper-slide"><img src="/static/images/brands/6.png"></div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- footer section  -->
+
+    <section class="footer">
+
+        <div class="box-container">
+
+            <div class="box">
+                <h3>about us</h3>
+                <p>Ready to embark on your dream adventure? Find the perfect package to match your travel desires and
+                    budget right here. Explore our exciting options in the "Packages" section. Let's craft your
+                    unforgettable experience!</p>
+            </div>
+            <div class="box">
+                <h3>branch locations</h3>
+                <a href="#">Lahore</a>
+                <a href="#">Islamabad</a>
+                <a href="#">Peshawar</a>
+                <a href="#">Sakardu</a>
+            </div>
+            <div class="box">
+                <h3>Phone Numbers</h3>
+                <a>+92 320 2429326</a>
+                <a>+92 333 4322631</a>
+                <a>+92 321 9482876</a>
+                <a>+92 310 4351121</a>
+
+            </div>
+            <div class="box">
+                <h3>follow us</h3>
+                <a href="#">facebook</a>
+                <a href="#">instagram</a>
+                <a href="#">twitter</a>
+                <a href="#">linkedin</a>
+            </div>
+
+        </div>
+
+        <h1 class="credit"> created by <span> CS-B Group-7 </span> | all rights reserved! </h1>
+
+    </section>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- custom js file link  -->
+    <script src="/static/script.js"></script>
+
+</body>
+
+</html>

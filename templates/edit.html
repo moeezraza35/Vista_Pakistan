@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Profile Edit Page</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+	<form class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md" method="POST" enctype="multipart/form-data" action="/profile/settings/edit/">
+		{% csrf_token %}
+		<div class="flex flex-col items-center mb-4">
+			<img src="{{ user.profile_img }}" alt="Profile Picture" id="profile-picture"
+				class="w-24 h-24 rounded-full mb-2 object-cover">
+			<label for="profile-picture-upload" class="bg-orange-400 text-white px-3 py-2 rounded cursor-pointer hover:bg-orange-500">Change
+				Profile Picture</label>
+			<input type="file" id="profile-picture-upload" name="profile_img" class="hidden">
+		</div>
+		<div id="profile-edit-form" class="space-y-4">
+			<div>
+				<label for="name" class="block font-semibold">Name</label>
+				<input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" value="{{ user.name }}" placeholder="Name">
+			</div>
+			<div>
+				<label for="email" class="block font-semibold">Email</label>
+				<input type="email" id="email" class="w-full p-2 border border-gray-300 rounded" value="{{ user.email }}" placeholder="Email" disabled>
+			</div>
+			<div>
+				<label for="country" class="block font-semibold">Country</label>
+				<input type="text" id="country" name="country" class="w-full p-2 border border-gray-300 rounded" value="{{ user.country }}" placeholder="Phone Number">
+			</div>
+			<div>
+				<a href="/forget/" class="text-blue-500 hover:text-blue-600 ">Change Password</a>
+			</div>
+			<button type="submit" class="w-full bg-orange-400 text-white p-2 rounded hover:bg-orange-500">Save Changes</button>
+		</div>
+	</form>
+	<script>
+		document.getElementById('profile-picture-upload').addEventListener('change', function() {
+			const file = this.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('profile-picture').src = e.target.result;
+				}
+				reader.readAsDataURL(file);
+			}
+		});
+		
+	</script>
+</body>
+
+</html>

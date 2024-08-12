@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Vista Admin') }}{% endblock %}
+{% block extrastyle %}
+<!-- font awesome cdn link  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="/static/admin/style.css">
+{% endblock %}
+<!-- {% block branding %}
+<a href="/" class="logo"><span>V</span>ista Admin</a>
+{% endblock %} -->
+
+{% block nav-global %}{% endblock %}

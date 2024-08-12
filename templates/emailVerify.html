@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency Signup</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+</head>
+<style>
+	/* Custom CSS to hide number input spinner */
+
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Webkit/Blink */
+    margin: 0;
+}
+
+</style>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center">
+
+    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden py-12">
+        <div class="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
+            <div class="mx-auto flex w-full max-w-md flex-col space-y-16">
+                <div class="flex flex-col items-center justify-center text-center space-y-2">
+                    <div class="font-semibold text-3xl">
+                        <p>Email Verification</p>
+                    </div>
+                    <div class="flex flex-row text-sm font-medium text-gray-400">
+                        <p>We have sent a code to your email {{email}}</p>
+                    </div>
+                </div>
+                {% if passReset %}
+                <form action="/forget/verify/request/?email={{ email }}" method="post">
+                {% else %}
+                <form action="/signup/email-verification/verify/?email={{ email }}" method="post">
+                {% endif %}
+					{% csrf_token %}
+                    <div class="grid grid-cols-6 gap-4">
+                        <!-- Use grid layout for the OTP input fields -->
+                        <input oninput="moveToNextInput(this)" class="col-span-1 w-12 h-12 px-2 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700 text-center" type="number" name="digit-1" id="digit-1" maxlength="1" required autocomplete="on"/>
+                        <input oninput="moveToNextInput(this)" class="col-span-1 w-12 h-12 px-2 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700 text-center" type="number" name="digit-2" id="digit-2" maxlength="1" required autocomplete="on"/>
+                        <input oninput="moveToNextInput(this)" class="col-span-1 w-12 h-12 px-2 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700 text-center" type="number" name="digit-3" id="digit-3" maxlength="1" required autocomplete="on"/>
+                        <input oninput="moveToNextInput(this)" class="col-span-1 w-12 h-12 px-2 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700 text-center" type="number" name="digit-4" id="digit-4" maxlength="1" required autocomplete="on"/>
+                        <input oninput="moveToNextInput(this)" class="col-span-1 w-12 h-12 px-2 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700 text-center" type="number" name="digit-5" id="digit-5" maxlength="1" required autocomplete="on"/>
+                        <input oninput="moveToNextInput(this)" class="col-span-1 w-12 h-12 px-2 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700 text-center" type="number" name="digit-6" id="digit-6" maxlength="1" required autocomplete="on"/>                    </div>
+					{% if invalid != "" %}
+					<p style="color: red;">{{ invalid }}</p>
+					{% endif %}
+
+                    <div class="flex flex-col space-y-5 mt-4" >
+                        <div>
+                            <input type="submit" id="submitBtn" class="w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm" value="Verify Account">
+                        </div>
+
+                        <div class="flex items-center justify-center text-sm font-medium text-gray-500 space-x-1">
+                            <p>Didn't receive the code?</p>
+                            <a class="text-blue-600" href="/signup/" target="" rel="noopener noreferrer">Resend</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function moveToNextInput(currentInput) {
+            if (currentInput.value.length === 1) {
+                // If a digit is entered, move to the next input field
+                var nextInput = currentInput.nextElementSibling;
+                if (nextInput) {
+                    nextInput.focus();
+                }else{
+					document.getElementById("submitBtn").focus();
+				}
+            }else{
+				// If backspace entered, move to prvious field
+				var PrevInput = currentInput.previousElementSibling;
+				if (PrevInput) {
+					PrevInput.focus();
+				}
+			}
+        }
+		document.getElementById("digit-1").focus()
+    </script>
+</body>
+
+</html>

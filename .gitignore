@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+vista_pakistan/gmail.py
+static/images/user/p*.jpg
+static/images/user/pic*.png
+static/images/receipts/*.jpg
+static/images/receipts/*.png

@@ -1,0 +1,5 @@
+django
+mysqlclient
+Pillow
+# certifi
+# wfastcgi

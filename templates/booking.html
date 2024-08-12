@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Payment</title>
+	<!-- Link to Tailwind CSS CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/images/vista.png" type="image/x-icon">
+</head>
+<!-- <body class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 min-h-screen flex items-center justify-center"> -->
+
+<body style="background: dimgray;" class="min-h-screen flex items-center justify-center">
+	<div style="background: gainsboro;" class="bg-white p-8 rounded-lg shadow-lg w-full sm:max-w-md">
+        {% if booked %}
+        <h1 class="text-2xl font-semibold Text-gray-800 text-center mb-6">Thank you<br>For choosing us</h1>
+		<h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">{{ price }} PKR</h2>
+        <img src="/static/images/pay.png" alt="" style="display: block; margin:auto;">
+		<h3 class="text-xl font-semibold text-gray-800 text-center mb-6">
+			NAYAPAY
+		</h3>
+		<p class="text-l text-gray-800 mb-6"><strong>Account Number:</strong> 03104351121</p>
+		<p class="text-l text-gray-800 mb-6"><strong>IBAN Number:</strong> PK06 NAYA 1234 5031 0435 1121</p>
+		<p class="text-l text-gray-800 mb-6"><strong>Account ID:</strong> moeezraza35@nayapay.com</p>
+		<form class="space-y-4" action="/package/payment/proceed/?booking={{ booking }}" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+            <div>
+				<label for="recipt" class="text-sm text-gray-600">Receipt</label>
+				<input type="file" id="recipt" name="receipt" accept=".png,.jpg" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-purple-500" value="" required>
+			</div>
+
+			<input type="submit" class="w-full bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 focus:outline-none focus:ring focus:border-purple-400" value="Proceed"/>
+		</form>
+		<p>Want to pay later? <a href="/profile/" style="color: blue; text-decoration:underline;">Go to Profile</a></p>
+        {% else %}
+        <h1 class="text-2xl font-semibold Text-gray-800 text-center mb-6">Something went wrong</h1>
+        <h3 class="text-1xl font-semibold Text-gray-800 text-center mb-6">This Package for this date is excceded the member limit</h3>
+        {% endif %}
+	</div>
+</body>
+</html>
