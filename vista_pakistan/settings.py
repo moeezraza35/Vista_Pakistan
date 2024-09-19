@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from gmail import gmail, password
+from .gmail import gmail, password
 # import os
 # import ssl
 # import certifi
